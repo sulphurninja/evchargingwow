@@ -8,6 +8,7 @@ import { toast } from 'sonner';
 import { Toaster } from '@/components/ui/sonner';
 import Cookie from 'js-cookie';
 import { Input } from '@/components/ui/input';
+import { postData } from '@/utils/fetchData';
 
 
 
@@ -51,10 +52,10 @@ export default function Login() {
     localStorage.setItem('firstLogin', true)
     // check if user has admin privileges
     if (res.user && res.user.role === 'admin') {
-      router.push("/admin"); // Redirect to admin page
+      router.push("/dashboard"); // Redirect to admin page
       toast("🙏 Welcome Admin!");
     } else if (res.user && res.user.role === 'user') {
-      router.push("/home"); // Redirect to home page or any other page
+      router.push("/dashboard"); // Redirect to home page or any other page
       toast("🙏 Welcome");
     } else {
       toast("❌ Something went wrong, please check your username and password!");
