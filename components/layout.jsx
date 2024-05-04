@@ -6,7 +6,7 @@ export default function Layout({ children }) {
     return (
         <>
             <Header />
-            <div className="flex h-screen overflow-hidden">
+            <div className="flex h-screen overflow-y-scroll">
                 <Sidebar />
                 <main className="w-full pt-16">{children}</main>
             </div>

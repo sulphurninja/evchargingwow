@@ -5,13 +5,13 @@ const vendorSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    vendorEmail:{
+    vendorEmail: {
         type: String,
         required: true,
     },
-    password:{
+    password: {
         type: String,
-        required:true,
+        required: true,
     },
     vendorCode: {
         type: String,
@@ -27,11 +27,21 @@ const vendorSchema = new mongoose.Schema({
         required: true,
     },
     contactPersonMobNo: {
-        type: Number,
+        type: String,
         required: true,
+    },
+    batteriesAssigned: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'battery',
+    }],
+    latitude: {
+        type: Number,
+    },
+    longitude: {
+        type: Number,
     },
 });
 
-const Vendor = mongoose.models.vendor || mongoose.model('Vendor', vendorSchema);
+let Dataset = mongoose.models.vendor || mongoose.model('vendor', vendorSchema);
 
-export default Vendor;
+export default Dataset;

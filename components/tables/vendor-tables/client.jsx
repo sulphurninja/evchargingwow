@@ -8,19 +8,21 @@ import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { columns } from "./columns";
 
-export const UserClient = ({ data }) => {
+
+
+export const VendorClient = ({ data }) => {
   const router = useRouter();
 
   return (
     <>
       <div className="flex items-start justify-between">
         <Heading
-          title={`Users (${data.length})`}
-          description="Manage Users (Update and delete user functionalities)"
+          title={`Vendors (${data.length})`}
+          description="Manage vendors (Update and delete vendor functionalities)"
         />
         <Button
           className="text-xs md:text-sm"
-          onClick={() => router.push(`/dashboard/users/register`)}
+          onClick={() => router.push(`/dashboard/vendors/register`)}
         >
           <Plus className="mr-2 h-4 w-4" /> Register
         </Button>

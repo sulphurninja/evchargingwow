@@ -20,6 +20,7 @@ export default function page() {
 
   const [userData, setUserData] = useState([]);
   const [batteryData, setBatteryData] = useState([]);
+  const [vendorData, setVendorData] = useState([]);
 
 
   useEffect(() => {
@@ -33,6 +34,19 @@ export default function page() {
     };
     fetchUsersData();
   }, []);
+
+  useEffect(() => {
+    const fetchVendorData = async () => {
+      try {
+        const response = await axios.get('/api/getVendors');
+        setVendorData(response.data);
+      } catch (error) {
+        console.error('Error fetching vendor data:', error);
+      }
+    };
+    fetchVendorData();
+  }, []);
+
 
 
   useEffect(() => {
@@ -48,8 +62,9 @@ export default function page() {
   }, []);
 
   const totalCustomers = userData.length; // Calculate total customers
+  const totalVendors = vendorData.length; // Calculate total vendors
   const totalBatteries = batteryData.length; // Calculate total batteries
-  const chargingBatteries = batteryData.filter(battery => battery.isCharging).length; // Calculate charging batteries
+  const availableBatteries = batteryData.filter(battery => battery.isFull).length; // Calculate charging batteries
 
 
   return (
@@ -94,7 +109,7 @@ export default function page() {
                 <CardContent>
                   <div className="text-2xl font-bold">{totalBatteries}</div>
                   <p className="text-xs text-muted-foreground">
-                    No of Registered Batteries
+                    No. of Registered Batteries
                   </p>
                 </CardContent>
               </Card>
@@ -119,9 +134,9 @@ export default function page() {
                   </svg>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">30</div>
+                  <div className="text-2xl font-bold">{totalVendors}</div>
                   <p className="text-xs text-muted-foreground">
-                    +18 from last month
+                    No. of Registered Vendors
                   </p>
                 </CardContent>
               </Card>
@@ -145,14 +160,14 @@ export default function page() {
                 <CardContent>
                   <div className="text-2xl font-bold">{totalCustomers}</div>
                   <p className="text-xs text-muted-foreground">
-                   No of Registered Users
+                    No. of Registered Users
                   </p>
                 </CardContent>
               </Card>
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">
-                    Charging Now
+                    Available Batteries
                   </CardTitle>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -168,9 +183,9 @@ export default function page() {
                   </svg>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">{chargingBatteries}</div>
+                  <div className="text-2xl font-bold">{availableBatteries}</div>
                   <p className="text-xs text-muted-foreground">
-                    Currently Charging Batteries
+                    Currently Full Batteries
                   </p>
                 </CardContent>
               </Card>

@@ -14,11 +14,11 @@ export default async (req, res) => {
 
 const generateVendorCode = async () => {
     try {
-        // Find the count of existing customers
+        // Find the count of existing vendors
         const count = await Vendors.countDocuments({});
-        // Generate a sequential ID
-        const customerId = `VEND${(count + 1).toString().padStart(4, '0')}`;
-        return customerId;
+        // Generate a sequential vendor code
+        const vendorCode = `VEND${(count + 1).toString().padStart(4, '0')}`;
+        return vendorCode;
     } catch (error) {
         console.error('Error generating vendor code:', error);
         throw error; // Throw error for handling in the caller function
@@ -27,12 +27,12 @@ const generateVendorCode = async () => {
 
 const register = async (req, res) => {
     try {
-        const { vendorName, vendorEmail, password, vendorAddress, contactPersonName, contactPersonMobNo } = req.body;
+        const { vendorName, vendorEmail, password, vendorAddress, contactPersonName, contactPersonMobNo, batteriesAssigned, latitude, longitude } = req.body;
 
-        // Check if the vendor code is already registered
-        const existingVendor = await Vendors.findOne({ email });
+        // Check if the vendor email is already registered
+        const existingVendor = await Vendors.findOne({ vendorEmail });
         if (existingVendor) {
-            return res.status(400).json({ error: 'Vendor code already exists' });
+            return res.status(400).json({ error: 'Vendor email already exists' });
         }
 
         // Hash the password
@@ -47,6 +47,7 @@ const register = async (req, res) => {
             vendorAddress,
             contactPersonName,
             contactPersonMobNo,
+            batteriesAssigned, // Assign batteries to the vendor
         });
 
         // Save the new vendor to the database
@@ -57,3 +58,4 @@ const register = async (req, res) => {
         return res.status(500).json({ error: error.message });
     }
 };
+

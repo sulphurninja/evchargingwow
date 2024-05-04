@@ -12,9 +12,9 @@ const batterySchema = new mongoose.Schema({
         default: 'not issued',
         enum: ['not issued', 'user', 'vendor']
     },
-    isCharging: {
+    isFull: {
         type: Boolean,
-        default: false,
+        default:true,
     },
     manufacturer: {
         type: String,

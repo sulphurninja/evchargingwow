@@ -54,9 +54,6 @@ export default function Login() {
     if (res.user && res.user.role === 'admin') {
       router.push("/dashboard"); // Redirect to admin page
       toast("🙏 Welcome Admin!");
-    } else if (res.user && res.user.role === 'user') {
-      router.push("/dashboard"); // Redirect to home page or any other page
-      toast("🙏 Welcome");
     } else {
       toast("❌ Something went wrong, please check your username and password!");
     }

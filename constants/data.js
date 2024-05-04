@@ -101,7 +101,7 @@ export const navItems = [
   },
   {
     title: "Vendors",
-    href: "/dashboard/employee",
+    href: "/dashboard/vendors",
     icon: "employee",
     label: "employee",
   },
@@ -116,11 +116,5 @@ export const navItems = [
     href: "/dashboard/batteries",
     icon: "kanban",
     label: "kanban",
-  },
-  {
-    title: "Logout",
-    href: "/",
-    icon: "login",
-    label: "login",
   },
 ];

@@ -25,29 +25,30 @@ export const columns = [
     enableHiding: false,
   },
   {
-    accessorKey: "serialNo",
-    header: "Sr.No",
+    accessorKey: "vendorCode",
+    header: "Code",
   },
   {
-    accessorKey: "manufacturer",
-    header: "Manufacturer",
+    accessorKey: "vendorName",
+    header: "Vendor Name",
   },
   {
-    accessorKey: "type",
-    header: "Type",
+    accessorKey: "vendorEmail",
+    header: "Vendor email",
   },
   {
-    accessorKey: "status",
-    header: "STATUS",
+    accessorKey: "vendorAddress",
+    header: "Address",
   },
   {
-    accessorKey: "isFull",
-    header: "Charging Full",
+    accessorKey: "contactPersonName",
+    header: "Contact Person Name",
   },
-  // {
-  //   accessorKey: "qrCode",
-  //   header: "QR Code",
-  // },
+  {
+    accessorKey: "contactPersonMobNo",
+    header: "Contact Person Mob No",
+  },
+  
   {
     id: "actions",
     cell: ({ row }) => <CellAction data={row.original} />,

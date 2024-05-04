@@ -1,5 +1,4 @@
 "use client"
-
 import React, { useEffect, useState } from 'react'
 import Layout from '@/components/layout'
 import { UserClient } from '@/components/tables/user-tables/client'
@@ -7,7 +6,7 @@ import BreadCrumb from '@/components/breadcrumb'
 import axios from 'axios'
 
 
-const breadcrumbItems = [{ title: "User", link: "/dashboard/user" }];
+const breadcrumbItems = [{ title: "User", link: "/dashboard/users" }];
 
 export default function Users() {
   const [userData, setUserData] = useState([]);
