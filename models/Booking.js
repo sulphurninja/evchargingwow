@@ -7,12 +7,10 @@ const bookingSchema = new mongoose.Schema({
         unique: true,
     },
     user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'user',
+        type: String,
     },
     vendor: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'vendor',
+        type: String,
     },
     completed: {
         type: Boolean,
