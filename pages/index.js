@@ -126,9 +126,7 @@ export default function Login() {
             <div className='flex justify-center '>
               <button type="submit" className="bg-white/90 2  mt-2 rounded-md text-black p-2 w-full">Submit</button>
             </div>
-            <p className='text-white'>Not an User ?
-              <a href='/register' className='text-green-200 cursor-pointer'> Register Now!</a>
-            </p>
+        
           </form>
 
 

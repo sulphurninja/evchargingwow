@@ -7,8 +7,6 @@ import { useState } from "react";
 
 // import { Playlist } from "../data/playlists";
 
-
-
 export function MobileSidebar({ className }) {
   const [open, setOpen] = useState(false);
   return (
