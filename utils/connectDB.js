@@ -6,7 +6,7 @@ const connectDb = async () => {
     const MONGODB_URI = 'mongodb+srv://aditya4sure:evcharging@findthegod.rw5ldjz.mongodb.net/?retryWrites=true&w=majority&appName=FindTheGod';
 
     await mongoose.connect(MONGODB_URI, {
-      useUnifiedTopology: true,
+      useNewUrlParser: true,
     });
 
     console.log('Connected to MongoDB');
