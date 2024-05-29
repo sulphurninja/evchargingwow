@@ -11,18 +11,41 @@ import {
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { OtpStyledInput } from "@/components/extension/otp-input";
+import { useRouter } from "next/router";
 
-const OtpTest = () => {
+const OtpTest = ({ vendorCode }) => {
   const form = useForm({
     defaultValues: {
       otp: "",
     },
   });
+  const router = useRouter();
+ 
 
-  const onSubmit = (data) => {
-    console.log(data);
-    toast.success(`Success , Your Otp code is : ${data.otp}`);
+  const onSubmit = async (data) => {
+    try {
+      const response = await fetch('/api/verify-otp', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ otp: data.otp, vendorCode }),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        toast.success(`Success, Your OTP code is: ${data.otp}`);
+        router.push(`/booking/${result.bookingId}`); // Redirect to the dynamic booking page
+      } else {
+        toast.error(result.error || 'OTP verification failed');
+      }
+    } catch (error) {
+      console.error('Error submitting OTP:', error);
+      toast.error('An error occurred while verifying OTP');
+    }
   };
+
   return (
     <div className="max-w-xs h-fit flex items-center justify-center outline outline-1 outline-muted rounded-md p-4 bg-background">
       <div className="w-full space-y-2">

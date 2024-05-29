@@ -51,7 +51,7 @@ export default function Login() {
 
     localStorage.setItem('firstLogin', true)
     // check if user has admin privileges
-    if (res.user && res.user.role === 'admin') {
+    if (res.user ) {
       router.push("/dashboard"); // Redirect to admin page
       toast("🙏 Welcome Admin!");
     } else {

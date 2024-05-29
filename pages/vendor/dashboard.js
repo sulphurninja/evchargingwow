@@ -18,6 +18,7 @@ import axios from "axios";
 import { DataContext } from "@/store/GlobalState";
 import HeaderVendor from "@/components/headerVendor";
 import Link from "next/link";
+import { Switch } from "@/components/ui/switch";
 
 export default function page() {
 
@@ -25,8 +26,55 @@ export default function page() {
     const { auth = {} } = state;
     const [vendorName, setVendorName] = useState("");
     const [batteryData, setBatteryData] = useState([]);
+    const [assignedbatteryData, setAssignedbatterydata] = useState([]);
+    const [vendorCode, setVendorCode] = useState('');
+    const [batteryStatuses, setBatteryStatuses] = useState(
+        assignedbatteryData.reduce((acc, battery) => {
+            acc[battery.serialNo] = battery.isFull;
+            return acc;
+        }, {})
+    );
+
+    const handleToggle = async (serialNo) => {
+        const newStatus = !batteryStatuses[serialNo];
+        setBatteryStatuses((prevStatuses) => ({
+            ...prevStatuses,
+            [serialNo]: newStatus,
+        }));
+
+        try {
+            await axios.post('/api/updateBatteryStatus', {
+                serialNo,
+                isFull: newStatus,
+            });
+        } catch (error) {
+            console.error('Error updating battery status:', error);
+        }
+    };
 
 
+
+    // console.log(auth.vendor.vendorCode, 'vendor')
+
+    useEffect(() => {
+        setVendorCode(auth?.vendor?.vendorCode);
+        localStorage.setItem('vendorCode', auth?.vendor?.vendorCode);
+
+    }, [auth.vendor]);
+
+    useEffect(() => {
+        const fetchAssignedBattery = async () => {
+            try {
+                const response = await axios.get(`/api/getAssignedBatteries?vendorCode=${vendorCode}`);
+                setAssignedbatterydata(response.data);
+            } catch (error) {
+                console.error('Error fetching battery data:', error);
+            }
+        };
+        fetchAssignedBattery();
+    }, [vendorCode]);
+
+    console.log(batteryData, 'battery')
     console.log(auth.vendor, 'vendor (loggedin)');
 
     useEffect(() => {
@@ -125,58 +173,97 @@ export default function page() {
                                     </CardContent>
                                 </Card>
                             </Link>
-                            <Card>
-                                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                                    <CardTitle className="text-sm font-medium">
-                                        Available Stock
-                                    </CardTitle>
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        className="h-4 w-4 text-muted-foreground"
-                                    >
-                                        <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
-                                    </svg>
-                                </CardHeader>
-                                <CardContent>
-                                    <div className="text-2xl font-bold"></div>
-                                    <p className="text-xs text-muted-foreground">
-                                        Currently Full Batteries
-                                    </p>
-                                </CardContent>
-                            </Card>
-                            <Card>
-                                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                                    <CardTitle className="text-sm font-medium">
-                                        Total Stock
-                                    </CardTitle>
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        className="h-4 w-4 text-muted-foreground"
-                                    >
-                                        <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
-                                    </svg>
-                                </CardHeader>
-                                <CardContent>
-                                    <div className="text-2xl font-bold"></div>
-                                    <p className="text-xs text-muted-foreground">
-                                        Currently Full Batteries
-                                    </p>
-                                </CardContent>
-                            </Card>
+                            <Link href='/vendor/availablestock'>
+                                <Card className='hover:shadow-sm hover:shadow-white'>
+                                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                                        <CardTitle className="text-sm font-medium">
+                                            Available Stock
+                                        </CardTitle>
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth="2"
+                                            className="h-4 w-4 text-muted-foreground"
+                                        >
+                                            <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+                                        </svg>
+                                    </CardHeader>
+                                    <CardContent>
+                                        <div className="text-2xl font-bold"></div>
+                                        <p className="text-xs text-muted-foreground">
+                                            Currently Full Batteries
+                                        </p>
+                                    </CardContent>
+                                </Card>
+                            </Link>
+                            <Link href='/vendor/totalStock'>
+                                <Card className='hover:shadow-sm hover:shadow-white'>
+                                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                                        <CardTitle className="text-sm font-medium">
+                                            Total Stock
+                                        </CardTitle>
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth="2"
+                                            className="h-4 w-4 text-muted-foreground"
+                                        >
+                                            <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+                                        </svg>
+                                    </CardHeader>
+                                    <CardContent>
+                                        <div className="text-2xl font-bold"></div>
+                                        <p className="text-xs text-muted-foreground">
+                                            Currently Full Batteries
+                                        </p>
+                                    </CardContent>
+                                </Card>
+                            </Link>
                         </div>
-
+                    </TabsContent>
+                    <TabsContent value="analytics" className="space-y-4">
+                        {assignedbatteryData.map((hmm) => (
+                            <Card className='hover:shadow-sm hover:shadow-white'>
+                                <CardHeader className="flex flex-row  items-center justify-between space-y-0 pb-2">
+                                    <CardTitle className="text-sm font-medium">
+                                        {hmm.serialNo}
+                                    </CardTitle>
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth="2"
+                                        className="h-4 w-4 text-muted-foreground"
+                                    >
+                                        <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+                                    </svg>
+                                </CardHeader>
+                                <CardContent>
+                                    <div className="text-2xl font-bold"></div>
+                                    {hmm.status}
+                                    <div className="flex gap-2 mt-2">
+                                    <h1>is Full</h1>
+                                        <Switch
+                                            checked={batteryStatuses[hmm.serialNo]}
+                                            onCheckedChange={() => handleToggle(hmm.serialNo)}
+                                            className={`${batteryStatuses[hmm.serialNo] ? 'bg-green-400' : 'bg-gray-200'
+                                                } relative inline-flex h-6 w-11 items-center rounded-full`}
+                                        />
+                                    </div>
+                                </CardContent>
+                            </Card>
+                        ))}
                     </TabsContent>
                 </Tabs>
             </div>

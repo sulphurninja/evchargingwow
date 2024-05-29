@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+import mongoose from 'mongoose';
 
 const batterySchema = new mongoose.Schema({
     serialNo: {
@@ -10,11 +10,11 @@ const batterySchema = new mongoose.Schema({
         type: String,
         required: true,
         default: 'not issued',
-        enum: ['not issued', 'user', 'vendor']
+        enum: ['not issued', 'user', 'vendor'],
     },
     isFull: {
         type: Boolean,
-        default:true,
+        default: true,
     },
     manufacturer: {
         type: String,
@@ -36,7 +36,10 @@ const batterySchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-})
+    fullAt: {
+        type: Date,
+    },
+});
 
-let Dataset = mongoose.models.battery || mongoose.model('battery', batterySchema)
-export default Dataset
+let Dataset = mongoose.models.battery || mongoose.model('battery', batterySchema);
+export default Dataset;
