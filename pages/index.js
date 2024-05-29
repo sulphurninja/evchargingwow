@@ -68,13 +68,14 @@ export default function Login() {
           "absolute right-4 hidden font-bold top-4 md:right-8 md:top-8",
         )}
       >
-        EV - Admin
+        QuickSwap - Admin
       </Link>
       <div className="relative hidden h-full flex-col bg-muted p-10 text-white dark:border-r lg:flex">
         <div className="absolute inset-0 bg-zinc-900" />
         <div className="relative z-20 flex items-center text-lg font-medium">
+        <img src='/logo.png' className='h-10' />
 
-          EV - Admin
+          {/* QuickSwap - Admin */}
           <Toaster />
         </div>
         <div className="relative z-20 mt-auto">
