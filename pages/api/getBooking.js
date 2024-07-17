@@ -10,6 +10,11 @@ export default async function handler(req, res) {
     // Extract user ID or vendor ID from query parameters
     const { userId, vendorId } = req.query;
 
+    if (!userId && !vendorId) {
+      // Return an error if neither userId nor vendorId is provided
+      return res.status(400).json({ error: 'User ID or Vendor ID is required' });
+    }
+
     let bookings;
 
     if (userId) {
@@ -18,9 +23,6 @@ export default async function handler(req, res) {
     } else if (vendorId) {
       // If vendor ID is provided, fetch bookings for that vendor
       bookings = await Booking.find({ vendor: vendorId });
-    } else {
-      // If neither user ID nor vendor ID is provided, fetch all bookings
-      bookings = await Booking.find({});
     }
 
     res.status(200).json(bookings);
